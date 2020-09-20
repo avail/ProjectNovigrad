@@ -153,6 +153,9 @@ echo Dll copied to game directoy!
 powershell -command "powershell (New-Object -ComObject Wscript.Shell).Popup("""Please set your TW3_DIR enviroment variable to a proper path eg.: D:\SteamLibrary\steamapps\common\TW3""",0,"""Warning""",0x30)"
 )</Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>taskkill /F /IM witcher3.exe 2&gt;&amp;1 | exit /B 0</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

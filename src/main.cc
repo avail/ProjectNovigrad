@@ -104,8 +104,10 @@ CMod* pMod = nullptr;
 
 DWORD WINAPI InitializeHook(void* arguments) {
   AllocConsole();
-
-  printf("Initializing\n");
+  FILE* file = nullptr;
+  freopen_s(&file, "CONIN$", "r", stdin);
+  freopen_s(&file, "CONOUT$", "w", stdout);
+  std::cout << "Initializing" << std::endl;
   thePSystem = new ProjectNovigrad::CSystem;
   thePSystem->Init();
   printf("System initialized\n");

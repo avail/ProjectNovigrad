@@ -2,7 +2,6 @@
 #include "System.h"
 
 // Disable windows CRT errors
-#pragma warning(disable:4996)
 
 using namespace ProjectNovigrad;
 
@@ -39,7 +38,9 @@ CSystem::~CSystem()
 
 void CSystem::CreateConsole() {
   AllocConsole();
-  freopen("CONOUT$", "w", stdout);
+  FILE* file = nullptr;
+  freopen_s(&file, "CONIN$", "r", stdin);
+  freopen_s(&file, "CONOUT$", "w", stdout);
 }
 
 void CSystem::Init()
