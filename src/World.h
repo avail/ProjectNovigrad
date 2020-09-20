@@ -1,7 +1,6 @@
 #pragma once
-#include "WorldFunctions.h"
-#include "../vtable/vmthooks.h"
 
+#include "WorldFunctions.h"
 
 namespace ProjectNovigrad
 {
@@ -16,16 +15,15 @@ namespace ProjectNovigrad
         return Functions::CWorld_SetWaterVisible(this, a, b);
       }
 
+      CLayer* FindLayerByTag(CName* tag)
+      {
+        return Functions::CWorld_FindLayerByTag(this, tag);
+      }
+
       CName* GetName()
       {
         return (CName*)*(UINT64*)(this + 24);
       }
-
-      void Shutdown()
-      {
-        utils::VtableHook hook(this);
-        hook.GetMethod<void(__thiscall*)(void*)>(56)(this);
-      }
     };
   }
-}   
+}

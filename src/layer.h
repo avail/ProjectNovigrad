@@ -1,6 +1,5 @@
 #pragma once
 #include "LayerFunctions.h"
-#include "DynArray.h"
 
 namespace ProjectNovigrad
 {
@@ -11,12 +10,12 @@ namespace ProjectNovigrad
     public:
       int RemoveShadowsFromLayer()
       {
-        return Functions::CLayer_RemoveShadowsFromLayer(this);
+        return ProjectNovigrad::TW3::Functions::CLayer_RemoveShadowsFromLayer(this);
       }
 
-      void GetEntities(TDynArray<CEntity*>* output)
+      void GetEntities(TDynArray<CEntity*>& array)
       {
-        return Functions::CLayer_GetEntities(this, output);
+        return ProjectNovigrad::TW3::Functions::CLayer_GetEntities(this, array);
       }
     };
   }

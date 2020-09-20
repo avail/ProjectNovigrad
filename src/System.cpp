@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "System.h"
 
+// Disable windows CRT errors
+#pragma warning(disable:4996)
+
 using namespace ProjectNovigrad;
 
 typedef bool (*OnViewportInputType)(void* thisptr,
@@ -39,14 +42,6 @@ void CSystem::CreateConsole() {
   freopen("CONOUT$", "w", stdout);
 }
 
-void CSystem::WaitForGame()
-{
-  while (!*m_pGame)
-  {
-    Sleep(1000);
-  }
-}
-
 void CSystem::Init()
 {
   hook::set_base();
@@ -54,8 +49,7 @@ void CSystem::Init()
   CreateConsole();
   m_pGame = TW3::CGame::Hook();
   m_pInput = new CInput();
-  WaitForGame();
-  m_pGameVtableHook = new utils::VtableHook(*m_pGame);
+  m_pGameVtableHook = new utils::VtableHook(m_pGame);
   pSystem = this;
 
   OnViewportInputDebugConsole =

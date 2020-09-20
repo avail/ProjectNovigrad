@@ -102,8 +102,14 @@
     <ClInclude Include="src\NodeFunctions.h">
       <Filter>Source Files\ProjectNovigrad\TW3\Functions</Filter>
     </ClInclude>
-    <ClInclude Include="src\TString.h">
-      <Filter>Source Files\ProjectNovigrad\TW3\Classes</Filter>
+    <ClInclude Include="src\witcher3-enums.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\witcher3-classes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\WitcherEnums.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -127,6 +133,9 @@
     </ClCompile>
     <ClCompile Include="vtable\vmthooks.cc">
       <Filter>Source Files\vtable</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cc">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

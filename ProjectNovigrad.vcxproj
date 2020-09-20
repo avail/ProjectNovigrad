@@ -107,7 +107,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>copy /Y "$(TargetDir)$(ProjectName).dll" "C:\Program Files (x86)\Steam\steamapps\common\The Witcher 3\bin\x64\$(ProjectName).dll"</Command>
+      <Command>copy /Y "$(TargetDir)$(ProjectName).dll" "$(TW3_DIR)\bin\x64\$(ProjectName).dll"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -130,7 +130,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -143,6 +143,16 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>if EXIST $(TW3_DIR)\bin\x64\witcher3.exe (
+echo Found witcher3.exe... copying dll
+if EXIST $(TW3_DIR)\bin\x64\plugins\$(ProjectName).dll ( del $(TW3_DIR)\bin\x64\plugins\$(ProjectName).dll )
+echo f | xcopy $(ProjectDir)\$(PlatformTarget)\$(ConfigurationName)\$(ProjectName).dll  $(TW3_DIR)\bin\x64\plugins\$(ProjectName).dll
+echo Dll copied to game directoy!
+) ELSE (
+powershell -command "powershell (New-Object -ComObject Wscript.Shell).Popup("""Please set your TW3_DIR enviroment variable to a proper path eg.: D:\SteamLibrary\steamapps\common\TW3""",0,"""Warning""",0x30)"
+)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -166,7 +176,9 @@
     <ClInclude Include="src\Node.h" />
     <ClInclude Include="src\NodeFunctions.h" />
     <ClInclude Include="src\System.h" />
-    <ClInclude Include="src\TString.h" />
+    <ClInclude Include="src\witcher3-classes.h" />
+    <ClInclude Include="src\witcher3-enums.h" />
+    <ClInclude Include="src\WitcherEnums.h" />
     <ClInclude Include="src\World.h" />
     <ClInclude Include="src\WorldFunctions.h" />
     <ClInclude Include="vtable\vmthooks.h" />
@@ -176,6 +188,7 @@
     <ClCompile Include="hooking\Hooking.cpp" />
     <ClCompile Include="hooking\Hooking.Patterns.cpp" />
     <ClCompile Include="src\Input.cpp" />
+    <ClCompile Include="src\main.cc" />
     <ClCompile Include="src\Name.h" />
     <ClCompile Include="src\System.cpp" />
     <ClCompile Include="vtable\vmthooks.cc" />

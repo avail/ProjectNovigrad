@@ -1,0 +1,129 @@
+#include <windows.h>
+#include <fstream>
+#include "stdlib.h"
+#include <iostream>
+#include "World.h"
+#include "Name.h"
+#include "IInputListener.h"
+#include "Node.h"
+#include "layer.h"
+#include "System.h"
+
+
+HANDLE thread = nullptr;
+
+ProjectNovigrad::CSystem* thePSystem = nullptr;
+
+class CMod : public IInputListener
+{
+public:
+  ProjectNovigrad::CSystem* m_pSystem;
+  ProjectNovigrad::TW3::CEntity** pEntities;
+  CMod(ProjectNovigrad::CSystem* pSystem)
+  {
+    m_pSystem = pSystem;
+    pSystem->GetInput()->RegisterInputListener(this);
+  }
+
+  ~CMod()
+  {
+  }
+
+  void OnInputEvent(EInputAction inputAction, EInputKey inputKey, float tick)
+  {
+    if (inputAction == EInputAction::IACT_Release && inputKey == EInputKey::IK_F10)
+    {
+      /*auto entities = new ProjectNovigrad::TW3::TDynArray<ProjectNovigrad::TW3::CEntity*>();
+      entities->base_pointer = nullptr;
+      entities->begin = 0;
+      entities->max = 100;
+      entities->count = 0;
+      pSystem->GetGame()->GetMainLayer()->GetEntities(entities);
+      pEntities = entities->base_pointer;*/
+    }
+
+    if (inputAction == EInputAction::IACT_Release && inputKey == EInputKey::IK_F11)
+    {
+      /*auto esp = new ProjectNovigrad::TW3::EntitySpawnInfo;
+      auto entityName = ProjectNovigrad::TW3::CreateTString(std::wstring(L"items\work\carry_crate\carry_crate_cage.w2ent"));
+      auto entityBaseSafeHandle = new ProjectNovigrad::TW3::BaseSafeHandle();
+
+      pSystem->GetDepot()->LoadResource(&entityBaseSafeHandle, entityName, true);
+
+      entityBaseSafeHandle->operator=(&esp->field_24);
+
+      pSystem->GetGame()->GetMainLayer()->CreateEntitySync(esp);
+
+      //wprintf(L"new entity friendly name? %ls\n", str1.ptr);
+      //printf("new entity pos %f.3 %f.3 %f.3\n", newent->GetWorldPosition().x, newent->GetWorldPosition().y, newent->GetWorldPosition().z);
+      */
+    }
+
+    if (inputAction == EInputAction::IACT_Release && inputKey == EInputKey::IK_F9)
+    {
+      /*char* buffer = new char[1000];
+      auto pEnt = pSystem->GetGame()->GetPlayerEntity();
+      auto pos = pEnt->GetWorldPosition();
+      ProjectNovigrad::TW3::EulerAngles angles;
+      angles.pitch = 0.0f;
+      angles.roll = 0.0f;
+      angles.yaw = 0.0f;
+
+      auto selectedEntity = pEntities[rand() % 100];
+      selectedEntity->Teleport(&pos, &angles);
+      auto entPos = selectedEntity->GetWorldPosition();
+      ProjectNovigrad::TW3::TString<wchar_t> friendlyName;
+      selectedEntity->GetFriendlyName(&friendlyName);
+      wprintf(L"Entity %ls teleported to player.\n", friendlyName.ptr);
+
+      pSystem->GetGame()->GetActiveWorld()->SetWaterVisible(true, true);
+      //pSystem->GetGame()->GetActiveWorld()->Shutdown();
+      wprintf(L"pPlayerEntityPos = %ls %ls %ls\n", std::to_wstring(pos.x).c_str(), std::to_wstring(pos.y).c_str(), std::to_wstring(pos.z).c_str());
+      delete buffer;*/
+
+    }
+    thePSystem->GetGame()->ProcessFreeCameraInput(inputKey, inputAction, tick);
+  }
+
+  void Run()
+  {
+    auto pGame = m_pSystem->GetGame();
+    if (!pGame) {
+      printf("pGame = nullptr"); 
+      return;
+    }
+    printf("Game gotten\n");
+    while (pGame == nullptr) {
+      Sleep(500);
+    }
+    printf("pGame = %d\n", pGame);
+  }
+};
+
+CMod* pMod = nullptr;
+
+DWORD WINAPI InitializeHook(void* arguments) {
+  AllocConsole();
+
+  printf("Initializing\n");
+  thePSystem = new ProjectNovigrad::CSystem;
+  thePSystem->Init();
+  printf("System initialized\n");
+  pMod = new CMod(thePSystem);
+  pMod->Run();
+  return 1;
+}
+
+
+int WINAPI DllMain(HINSTANCE instance, DWORD reason, PVOID reserved) {
+  if (reason == DLL_PROCESS_ATTACH) {
+
+    thread = CreateThread(nullptr, 0, InitializeHook, 0, 0, nullptr);
+  } else if (reason == DLL_PROCESS_DETACH) {
+    delete pMod;
+    delete thePSystem;
+    WaitForSingleObject(thread, INFINITE);
+    CloseHandle(thread);
+  }
+  return 1;
+}
