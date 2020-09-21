@@ -34,6 +34,9 @@
     <Filter Include="Source Files\vtable">
       <UniqueIdentifier>{3b551ddc-3a06-4e02-89be-08c3384257cc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\kiero">
+      <UniqueIdentifier>{9f0fd833-d6c3-400a-a98f-736d0fbd46a8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -111,6 +114,60 @@
     <ClInclude Include="src\WitcherEnums.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\includes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\imgui\imconfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\imgui\imgui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\imgui\imgui_impl_dx11.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\imgui\imgui_impl_win32.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\imgui\imgui_internal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\imgui\imstb_rectpack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\imgui\imstb_textedit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\imgui\imstb_truetype.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\kiero\minhook\include\MinHook.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\kiero\minhook\src\hde\hde32.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\kiero\minhook\src\hde\hde64.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\kiero\minhook\src\hde\pstdint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\kiero\minhook\src\hde\table32.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\kiero\minhook\src\hde\table64.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\kiero\minhook\src\buffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\kiero\minhook\src\trampoline.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\kiero\kiero.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\System.cpp">
@@ -137,5 +194,51 @@
     <ClCompile Include="src\main.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\kiero\kiero.cpp">
+      <Filter>Source Files\kiero</Filter>
+    </ClCompile>
+    <ClCompile Include="src\imgui\imgui.cpp">
+      <Filter>Source Files\kiero</Filter>
+    </ClCompile>
+    <ClCompile Include="src\imgui\imgui_demo.cpp">
+      <Filter>Source Files\kiero</Filter>
+    </ClCompile>
+    <ClCompile Include="src\imgui\imgui_draw.cpp">
+      <Filter>Source Files\kiero</Filter>
+    </ClCompile>
+    <ClCompile Include="src\imgui\imgui_impl_dx11.cpp">
+      <Filter>Source Files\kiero</Filter>
+    </ClCompile>
+    <ClCompile Include="src\imgui\imgui_impl_win32.cpp">
+      <Filter>Source Files\kiero</Filter>
+    </ClCompile>
+    <ClCompile Include="src\imgui\imgui_widgets.cpp">
+      <Filter>Source Files\kiero</Filter>
+    </ClCompile>
+    <ClCompile Include="src\kiero\minhook\src\buffer.c">
+      <Filter>Source Files\kiero</Filter>
+    </ClCompile>
+    <ClCompile Include="src\kiero\minhook\src\hde\hde32.c">
+      <Filter>Source Files\kiero</Filter>
+    </ClCompile>
+    <ClCompile Include="src\kiero\minhook\src\hde\hde64.c">
+      <Filter>Source Files\kiero</Filter>
+    </ClCompile>
+    <ClCompile Include="src\kiero\minhook\src\hook.c">
+      <Filter>Source Files\kiero</Filter>
+    </ClCompile>
+    <ClCompile Include="src\kiero\minhook\src\trampoline.c">
+      <Filter>Source Files\kiero</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="src\kiero\minhook\dll_resources\MinHook.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\kiero\minhook\dll_resources\MinHook.def">
+      <Filter>Source Files\kiero</Filter>
+    </None>
   </ItemGroup>
 </Project>

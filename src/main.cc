@@ -1,4 +1,4 @@
-#include <windows.h>
+#include <Windows.h>
 #include <fstream>
 #include "stdlib.h"
 #include <iostream>
@@ -9,6 +9,16 @@
 #include "layer.h"
 #include "System.h"
 #include "../hooking/Hooking.h"
+#include "includes.h"
+
+extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
+Present oPresent;
+HWND window = NULL;
+WNDPROC oWndProc;
+ID3D11Device* pDevice = NULL;
+ID3D11DeviceContext* pContext = NULL;
+ID3D11RenderTargetView* mainRenderTargetView;
 
 
 HANDLE thread = nullptr;
@@ -103,6 +113,61 @@ public:
 
 CMod* pMod = nullptr;
 
+void InitImGui()
+{
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO();
+    io.ConfigFlags = ImGuiConfigFlags_NoMouseCursorChange;
+    ImGui_ImplWin32_Init(window);
+    ImGui_ImplDX11_Init(pDevice, pContext);
+}
+
+LRESULT __stdcall WndProc(const HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
+
+    if (true && ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam))
+        return true;
+
+    return CallWindowProc(oWndProc, hWnd, uMsg, wParam, lParam);
+}
+
+bool init = false;
+HRESULT __stdcall hkPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags)
+{
+    if (!init)
+    {
+        if (SUCCEEDED(pSwapChain->GetDevice(__uuidof(ID3D11Device), (void**)&pDevice)))
+        {
+            pDevice->GetImmediateContext(&pContext);
+            DXGI_SWAP_CHAIN_DESC sd;
+            pSwapChain->GetDesc(&sd);
+            window = sd.OutputWindow;
+            ID3D11Texture2D* pBackBuffer;
+            pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
+            pDevice->CreateRenderTargetView(pBackBuffer, NULL, &mainRenderTargetView);
+            pBackBuffer->Release();
+            oWndProc = (WNDPROC)SetWindowLongPtr(window, GWLP_WNDPROC, (LONG_PTR)WndProc);
+            InitImGui();
+            init = true;
+        }
+
+        else
+            return oPresent(pSwapChain, SyncInterval, Flags);
+    }
+
+    ImGui_ImplDX11_NewFrame();
+    ImGui_ImplWin32_NewFrame();
+    ImGui::NewFrame();
+
+    ImGui::ShowDemoWindow();
+    ImGui::End();
+
+    ImGui::Render();
+
+    pContext->OMSetRenderTargets(1, &mainRenderTargetView, NULL);
+    ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+    return oPresent(pSwapChain, SyncInterval, Flags);
+}
+
 DWORD WINAPI InitializeHook(void* arguments) {
   AllocConsole();
   FILE* file = nullptr;
@@ -122,6 +187,18 @@ DWORD WINAPI InitializeHook(void* arguments) {
   {
       std::cout << "Found game version: witcher3.exe [" << ver << "]" << std::endl;
   }
+  std::cout << "Initializing kiero dx11 hook..." << std::endl;
+  bool init_hook = false;
+  do
+  {
+      if (kiero::init(kiero::RenderType::D3D11) == kiero::Status::Success)
+      {
+          kiero::bind(8, (void**)&oPresent, hkPresent);
+          init_hook = true;
+      }
+  } while (!init_hook);
+  return TRUE;
+  std::cout << "DirectX 11 hook for imgui initialized!" << std::endl;
   //thePSystem = new ProjectNovigrad::CSystem;
   //thePSystem->Init();
   //std::cout << "System initialized" << std::endl;
@@ -133,9 +210,10 @@ DWORD WINAPI InitializeHook(void* arguments) {
 
 int WINAPI DllMain(HINSTANCE instance, DWORD reason, PVOID reserved) {
   if (reason == DLL_PROCESS_ATTACH) {
-
+    DisableThreadLibraryCalls(instance);
     thread = CreateThread(nullptr, 0, InitializeHook, 0, 0, nullptr);
   } else if (reason == DLL_PROCESS_DETACH) {
+    kiero::shutdown();
     FreeConsole();
     delete pMod;
     delete thePSystem;
