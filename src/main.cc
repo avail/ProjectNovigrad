@@ -122,11 +122,11 @@ DWORD WINAPI InitializeHook(void* arguments) {
   {
       std::cout << "Found game version: witcher3.exe [" << ver << "]" << std::endl;
   }
-  thePSystem = new ProjectNovigrad::CSystem;
-  thePSystem->Init();
-  std::cout << "System initialized" << std::endl;
-  pMod = new CMod(thePSystem);
-  pMod->Run();
+  //thePSystem = new ProjectNovigrad::CSystem;
+  //thePSystem->Init();
+  //std::cout << "System initialized" << std::endl;
+  //pMod = new CMod(thePSystem);
+  //pMod->Run();
   return 1;
 }
 
