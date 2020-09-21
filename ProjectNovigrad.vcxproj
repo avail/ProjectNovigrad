@@ -126,6 +126,19 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>if EXIST $(TW3_DIR)\bin\x64\witcher3.exe (
+echo Found witcher3.exe... copying dll
+if EXIST $(TW3_DIR)\bin\x64\plugins\$(ProjectName).dll ( del $(TW3_DIR)\bin\x64\plugins\$(ProjectName).dll )
+echo f | xcopy $(ProjectDir)\$(PlatformTarget)\$(ConfigurationName)\$(ProjectName).dll  $(TW3_DIR)\bin\x64\plugins\$(ProjectName).dll
+echo Dll copied to game directoy!
+) ELSE (
+powershell -command "powershell (New-Object -ComObject Wscript.Shell).Popup("""Please set your TW3_DIR enviroment variable to a proper path eg.: D:\SteamLibrary\steamapps\common\TW3""",0,"""Warning""",0x30)"
+)</Command>
+    </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>taskkill /F /IM witcher3.exe 2&gt;&amp;1 | exit /B 0</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>

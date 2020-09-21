@@ -8,6 +8,7 @@
 #include "Node.h"
 #include "layer.h"
 #include "System.h"
+#include "../hooking/Hooking.h"
 
 
 HANDLE thread = nullptr;
@@ -108,9 +109,22 @@ DWORD WINAPI InitializeHook(void* arguments) {
   freopen_s(&file, "CONIN$", "r", stdin);
   freopen_s(&file, "CONOUT$", "w", stdout);
   std::cout << "Initializing" << std::endl;
+  hook::set_base();
+  auto version_sig = hook::pattern("48 FF 42 30 48 8D 05 ? ? ? ?");
+  auto gamever = version_sig.count(1).get(0).extract<char*>(0x7);
+  auto ver = std::string(gamever);
+  if(ver.compare(std::string("v 1.32")) != 0)
+  {
+      MessageBoxA(NULL, "Unsupported game version! Only v1.32 is supported!", "Error", MB_OK | MB_ICONERROR);
+      exit(0x0);
+  }
+  else
+  {
+      std::cout << "Found game version: witcher3.exe [" << ver << "]" << std::endl;
+  }
   thePSystem = new ProjectNovigrad::CSystem;
   thePSystem->Init();
-  printf("System initialized\n");
+  std::cout << "System initialized" << std::endl;
   pMod = new CMod(thePSystem);
   pMod->Run();
   return 1;
@@ -122,6 +136,7 @@ int WINAPI DllMain(HINSTANCE instance, DWORD reason, PVOID reserved) {
 
     thread = CreateThread(nullptr, 0, InitializeHook, 0, 0, nullptr);
   } else if (reason == DLL_PROCESS_DETACH) {
+    FreeConsole();
     delete pMod;
     delete thePSystem;
     WaitForSingleObject(thread, INFINITE);

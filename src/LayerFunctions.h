@@ -1,5 +1,6 @@
 #pragma once
 #include "../hooking/Hooking.h"
+#include <iostream>
 
 namespace ProjectNovigrad
 {
@@ -12,6 +13,7 @@ namespace ProjectNovigrad
     namespace Functions
     {
       static hook::thiscall_stub<int(CLayer*)> CLayer_RemoveShadowsFromLayer([]() {
+        std::cout << "HOOK -> CLayer_RemoveShadowsFromLayer hooked!" << std::endl;
         return hook::pattern("40 56 48 83 EC 60 48 8B 01 48 8B F1 FF 90 18 01")
           .count(1)
           .get(0)

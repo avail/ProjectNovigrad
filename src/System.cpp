@@ -45,7 +45,6 @@ void CSystem::CreateConsole() {
 
 void CSystem::Init()
 {
-  hook::set_base();
   HookFunction::RunAll();
   CreateConsole();
   m_pGame = TW3::CGame::Hook();
