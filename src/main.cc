@@ -118,6 +118,7 @@ void InitImGui()
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
     io.ConfigFlags = ImGuiConfigFlags_NoMouseCursorChange;
+    io.DisplaySize = ImVec2(1920, 1080);
     ImGui_ImplWin32_Init(window);
     ImGui_ImplDX11_Init(pDevice, pContext);
 }
@@ -158,6 +159,7 @@ HRESULT __stdcall hkPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT 
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
 
+
     ImGui::ShowDemoWindow();
     ImGui::End();
 
@@ -197,7 +199,6 @@ DWORD WINAPI InitializeHook(void* arguments) {
           init_hook = true;
       }
   } while (!init_hook);
-  return TRUE;
   std::cout << "DirectX 11 hook for imgui initialized!" << std::endl;
   //thePSystem = new ProjectNovigrad::CSystem;
   //thePSystem->Init();
