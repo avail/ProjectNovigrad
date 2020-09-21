@@ -23,6 +23,8 @@ ID3D11RenderTargetView* mainRenderTargetView;
 
 HANDLE thread = nullptr;
 
+bool UIOpen = true;
+
 ProjectNovigrad::CSystem* thePSystem = nullptr;
 
 class CMod : public IInputListener
@@ -149,8 +151,9 @@ void InitImGui(HWND window)
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
     io.ConfigFlags = ImGuiConfigFlags_NoMouseCursorChange;
+    io.MouseDrawCursor = true;
     RECT rect;
-    if (GetWindowRect(window, &rect))
+    if (GetClientRect(window, &rect))
     {
         int width = rect.right - rect.left;
         int height = rect.bottom - rect.top;
@@ -178,7 +181,7 @@ HRESULT __stdcall hkPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT 
             pDevice->GetImmediateContext(&pContext);
             DXGI_SWAP_CHAIN_DESC sd;
             pSwapChain->GetDesc(&sd);
-            window = FindMainWindow(GetCurrentProcessId());;
+            window = FindMainWindow(GetCurrentProcessId());
             ID3D11Texture2D* pBackBuffer;
             pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
             pDevice->CreateRenderTargetView(pBackBuffer, NULL, &mainRenderTargetView);
@@ -192,12 +195,21 @@ HRESULT __stdcall hkPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT 
             return oPresent(pSwapChain, SyncInterval, Flags);
     }
 
+    if (ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Insert)))
+    {
+        std::cout << "INFO: Menu opened/closed!" << std::endl;
+        UIOpen = !UIOpen;
+        ImGuiIO& io = ImGui::GetIO();
+        io.MouseDrawCursor = UIOpen;
+    }
+
     ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
-
-
-    ImGui::ShowDemoWindow();
+    if (UIOpen)
+    {
+        ImGui::ShowDemoWindow();
+    }
     ImGui::End();
 
     ImGui::Render();
