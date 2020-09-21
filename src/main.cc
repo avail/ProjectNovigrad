@@ -113,12 +113,49 @@ public:
 
 CMod* pMod = nullptr;
 
-void InitImGui()
+struct HandleData
+{
+    DWORD pid;
+    HWND hWnd;
+};
+
+HWND FindMainWindow(DWORD dwPID);
+BOOL CALLBACK EnumWindowsCallback(HWND hWnd, LPARAM lParam);
+
+HWND FindMainWindow(DWORD dwPID)
+{
+    HandleData handleData{ 0 };
+    handleData.pid = dwPID;
+    EnumWindows(EnumWindowsCallback, (LPARAM)&handleData);
+    return handleData.hWnd;
+}
+
+BOOL EnumWindowsCallback(HWND hWnd, LPARAM lParam)
+{
+    HandleData& data = *(HandleData*)lParam;
+    DWORD pid = 0;
+    GetWindowThreadProcessId(hWnd, &pid);
+    if (pid == data.pid && GetWindow(hWnd, GW_OWNER) == HWND(0) && IsWindowVisible(hWnd))
+    {
+        data.hWnd = hWnd;
+        return FALSE;
+    }
+
+    return TRUE;
+}
+
+void InitImGui(HWND window)
 {
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
     io.ConfigFlags = ImGuiConfigFlags_NoMouseCursorChange;
-    io.DisplaySize = ImVec2(1920, 1080);
+    RECT rect;
+    if (GetWindowRect(window, &rect))
+    {
+        int width = rect.right - rect.left;
+        int height = rect.bottom - rect.top;
+        io.DisplaySize = ImVec2(width, height);
+    }
     ImGui_ImplWin32_Init(window);
     ImGui_ImplDX11_Init(pDevice, pContext);
 }
@@ -141,13 +178,13 @@ HRESULT __stdcall hkPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT 
             pDevice->GetImmediateContext(&pContext);
             DXGI_SWAP_CHAIN_DESC sd;
             pSwapChain->GetDesc(&sd);
-            window = sd.OutputWindow;
+            window = FindMainWindow(GetCurrentProcessId());;
             ID3D11Texture2D* pBackBuffer;
             pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
             pDevice->CreateRenderTargetView(pBackBuffer, NULL, &mainRenderTargetView);
             pBackBuffer->Release();
             oWndProc = (WNDPROC)SetWindowLongPtr(window, GWLP_WNDPROC, (LONG_PTR)WndProc);
-            InitImGui();
+            InitImGui(window);
             init = true;
         }
 
