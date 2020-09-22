@@ -146,6 +146,9 @@ BOOL EnumWindowsCallback(HWND hWnd, LPARAM lParam)
     return TRUE;
 }
 
+bool init = false;
+char execinputbuf[128] = "";
+
 void InitImGui(HWND window)
 {
     ImGui::CreateContext();
@@ -171,7 +174,11 @@ LRESULT __stdcall WndProc(const HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
     return CallWindowProc(oWndProc, hWnd, uMsg, wParam, lParam);
 }
 
-bool init = false;
+void Exec(char* command)
+{
+
+}
+
 HRESULT __stdcall hkPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags)
 {
     if (!init)
@@ -208,7 +215,15 @@ HRESULT __stdcall hkPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT 
     ImGui::NewFrame();
     if (UIOpen)
     {
-        ImGui::ShowDemoWindow();
+        ImGui::Begin("ProjectNovigrad - Debug UI", &UIOpen, ImGuiWindowFlags_MenuBar);
+        ImGui::Text("Input any exec command here:");
+        ImGui::InputText("string", execinputbuf, IM_ARRAYSIZE(execinputbuf));
+        if (ImGui::Button("Execute"))
+        {
+            std::ostringstream os;
+            os << "Executed \"" << std::string(execinputbuf) << "\" in the CScriptSystem of the game!";
+            MessageBoxA(NULL, std::string(os.str()).c_str(), "Info", MB_OK | MB_ICONINFORMATION);
+        }
     }
     ImGui::End();
 
@@ -224,6 +239,7 @@ DWORD WINAPI InitializeHook(void* arguments) {
   FILE* file = nullptr;
   freopen_s(&file, "CONIN$", "r", stdin);
   freopen_s(&file, "CONOUT$", "w", stdout);
+  system("title ProjectNovigrad - DEBUG CONSOLE [Open/Close UI with INSERT key]");
   std::cout << "Initializing" << std::endl;
   hook::set_base();
   auto version_sig = hook::pattern("48 FF 42 30 48 8D 05 ? ? ? ?");
@@ -269,6 +285,7 @@ int WINAPI DllMain(HINSTANCE instance, DWORD reason, PVOID reserved) {
     delete thePSystem;
     WaitForSingleObject(thread, INFINITE);
     CloseHandle(thread);
+    delete execinputbuf;
   }
   return 1;
 }
