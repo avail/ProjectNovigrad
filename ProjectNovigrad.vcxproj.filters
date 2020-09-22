@@ -177,6 +177,15 @@
     <ClInclude Include="TString.h">
       <Filter>Source Files\ProjectNovigrad\TW3\Classes</Filter>
     </ClInclude>
+    <ClInclude Include="src\CScriptingSystemFunctions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CSriptingSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TString.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\System.cpp">

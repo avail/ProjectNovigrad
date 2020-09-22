@@ -182,6 +182,8 @@ powershell -command "powershell (New-Object -ComObject Wscript.Shell).Popup("""P
     <ClInclude Include="hooking\Hooking.h" />
     <ClInclude Include="hooking\Hooking.Invoke.h" />
     <ClInclude Include="hooking\Hooking.Patterns.h" />
+    <ClInclude Include="src\CScriptingSystemFunctions.h" />
+    <ClInclude Include="src\CSriptingSystem.h" />
     <ClInclude Include="src\DynArray.h" />
     <ClInclude Include="src\Entity.h" />
     <ClInclude Include="src\EntityFunctions.h" />
@@ -213,6 +215,7 @@ powershell -command "powershell (New-Object -ComObject Wscript.Shell).Popup("""P
     <ClInclude Include="src\Node.h" />
     <ClInclude Include="src\NodeFunctions.h" />
     <ClInclude Include="src\System.h" />
+    <ClInclude Include="src\TString.h" />
     <ClInclude Include="src\witcher3-classes.h" />
     <ClInclude Include="src\witcher3-enums.h" />
     <ClInclude Include="src\WitcherEnums.h" />
