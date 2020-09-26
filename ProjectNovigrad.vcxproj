@@ -55,6 +55,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;PROJECTNOVIGRAD_EXPORTS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -99,13 +100,12 @@ powershell -command "powershell (New-Object -ComObject Wscript.Shell).Popup("""P
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CScriptingSystemFunctions.h" />
-    <ClInclude Include="CSriptingSystem.h" />
     <ClInclude Include="hooking\HookFunction.h" />
     <ClInclude Include="hooking\Hooking.FuncCalls.h" />
     <ClInclude Include="hooking\Hooking.h" />
     <ClInclude Include="hooking\Hooking.Invoke.h" />
     <ClInclude Include="hooking\Hooking.Patterns.h" />
+    <ClInclude Include="src\Array.h" />
     <ClInclude Include="src\CScriptingSystemFunctions.h" />
     <ClInclude Include="src\CSriptingSystem.h" />
     <ClInclude Include="src\DynArray.h" />
@@ -113,6 +113,7 @@ powershell -command "powershell (New-Object -ComObject Wscript.Shell).Popup("""P
     <ClInclude Include="src\EntityFunctions.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\GameFunctions.h" />
+    <ClInclude Include="src\HashContainer.h" />
     <ClInclude Include="src\IInputListener.h" />
     <ClInclude Include="src\imgui\imconfig.h" />
     <ClInclude Include="src\imgui\imgui.h" />
@@ -140,18 +141,19 @@ powershell -command "powershell (New-Object -ComObject Wscript.Shell).Popup("""P
     <ClInclude Include="src\NodeFunctions.h" />
     <ClInclude Include="src\System.h" />
     <ClInclude Include="src\TString.h" />
+    <ClInclude Include="src\W3String.h" />
     <ClInclude Include="src\witcher3-classes.h" />
     <ClInclude Include="src\witcher3-enums.h" />
     <ClInclude Include="src\WitcherEnums.h" />
     <ClInclude Include="src\World.h" />
     <ClInclude Include="src\WorldFunctions.h" />
-    <ClInclude Include="TString.h" />
     <ClInclude Include="vtable\vmthooks.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="hooking\HookFunction.cpp" />
     <ClCompile Include="hooking\Hooking.cpp" />
     <ClCompile Include="hooking\Hooking.Patterns.cpp" />
+    <ClCompile Include="src\HashContainer.cpp" />
     <ClCompile Include="src\imgui\imgui.cpp" />
     <ClCompile Include="src\imgui\imgui_demo.cpp" />
     <ClCompile Include="src\imgui\imgui_draw.cpp" />

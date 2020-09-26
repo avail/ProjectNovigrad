@@ -168,23 +168,23 @@
     <ClInclude Include="src\kiero\kiero.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CSriptingSystem.h">
-      <Filter>Source Files\ProjectNovigrad\TW3\Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="CScriptingSystemFunctions.h">
-      <Filter>Source Files\ProjectNovigrad\TW3\Functions</Filter>
-    </ClInclude>
-    <ClInclude Include="TString.h">
+    <ClInclude Include="src\CSriptingSystem.h">
       <Filter>Source Files\ProjectNovigrad\TW3\Classes</Filter>
     </ClInclude>
     <ClInclude Include="src\CScriptingSystemFunctions.h">
-      <Filter>Header Files</Filter>
+      <Filter>Source Files\ProjectNovigrad\TW3\Functions</Filter>
     </ClInclude>
-    <ClInclude Include="src\CSriptingSystem.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\HashContainer.h">
+      <Filter>Source Files\ProjectNovigrad\TW3\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Array.h">
+      <Filter>Source Files\ProjectNovigrad\TW3\Classes</Filter>
     </ClInclude>
     <ClInclude Include="src\TString.h">
-      <Filter>Header Files</Filter>
+      <Filter>Source Files\ProjectNovigrad\TW3\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\W3String.h">
+      <Filter>Source Files\ProjectNovigrad\TW3\Classes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -247,6 +247,9 @@
     </ClCompile>
     <ClCompile Include="src\kiero\minhook\src\trampoline.c">
       <Filter>Source Files\kiero</Filter>
+    </ClCompile>
+    <ClCompile Include="src\HashContainer.cpp">
+      <Filter>Source Files\ProjectNovigrad\TW3\Classes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
