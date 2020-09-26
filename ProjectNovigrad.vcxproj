@@ -111,6 +111,7 @@ powershell -command "powershell (New-Object -ComObject Wscript.Shell).Popup("""P
     <ClInclude Include="src\DynArray.h" />
     <ClInclude Include="src\Entity.h" />
     <ClInclude Include="src\EntityFunctions.h" />
+    <ClInclude Include="src\Function.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\GameFunctions.h" />
     <ClInclude Include="src\HashContainer.h" />
@@ -153,6 +154,7 @@ powershell -command "powershell (New-Object -ComObject Wscript.Shell).Popup("""P
     <ClCompile Include="hooking\HookFunction.cpp" />
     <ClCompile Include="hooking\Hooking.cpp" />
     <ClCompile Include="hooking\Hooking.Patterns.cpp" />
+    <ClCompile Include="src\Function.cpp" />
     <ClCompile Include="src\HashContainer.cpp" />
     <ClCompile Include="src\imgui\imgui.cpp" />
     <ClCompile Include="src\imgui\imgui_demo.cpp" />

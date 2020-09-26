@@ -7,8 +7,6 @@
 #include "Array.h"
 #include "W3String.h"
 
-#include "../hooking/Hooking.h"
-
 namespace ProjectNovigrad::TW3
 {
     class HashDescriptor

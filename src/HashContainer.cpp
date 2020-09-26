@@ -2,6 +2,8 @@
 
 #include "HashContainer.h"
 
+#include "../hooking/Hooking.h"
+
 namespace ProjectNovigrad::TW3
 {
     #pragma region HashDescriptor
